@@ -3,6 +3,11 @@ const router = express.Router();
 const issueController=require('./../controllers/issueController');
 const appConfig = require("./../../config/appConfig")
 const auth = require("./../middlewares/auth")
+const path = require('path');
+
+
+
+
 module.exports.setRouter = function(app){
 
     let baseUrl = `${appConfig.apiVersion}/tickets`;
@@ -15,6 +20,9 @@ module.exports.setRouter = function(app){
     app.get(baseUrl+'/comment/:issueId',auth.isAuthorized,issueController.viewCommentByIssueId);
     app.post(baseUrl+'/search',auth.isAuthorized,issueController.createWatcher);
     app.get(baseUrl+'/search/:issueId',auth.isAuthorized,issueController.viewWatchersByIssueId);
+    
+
+    
 
 
 
@@ -23,3 +31,6 @@ module.exports.setRouter = function(app){
 
 
 }
+
+
+

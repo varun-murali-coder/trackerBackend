@@ -10,6 +10,8 @@ const CommentModel=mongoose.model('CommentModel');
 const SearchModel = mongoose.model('Search')
 
 
+
+
 /**
  * function to read all tickets.
  */
@@ -24,7 +26,7 @@ let getAllTickets = (req, res) => {
                 let apiResponse = response.generate(true, 'Failed To Find All Ticket Details', 500, null)
                 res.send(apiResponse)
             } else if (check.isEmpty(result)) {
-                logger.info('No Ticket Found', 'Blog Controller: getAllTickets')
+                logger.info('No Ticket Found', 'Issue Controller: getAllTickets')
                 let apiResponse = response.generate(true, 'No Ticket Found', 404, null)
                 res.send(apiResponse)
             } else {
@@ -41,7 +43,6 @@ let viewByIssueId = (req, res) => {
 
     if (check.isEmpty(req.params.issueId)) {
 
-        console.log('blogId should be passed')
         let apiResponse = response.generate(true, 'issueId is missing', 403, null)
         res.send(apiResponse)
     } else {
@@ -50,13 +51,11 @@ let viewByIssueId = (req, res) => {
 
             if (err) {
 
-                console.log('Error Occured.')
                 logger.error(`Error Occured : ${err}`, 'Database', 10)
                 let apiResponse = response.generate(true, 'Error Occured.', 500, null)
                 res.send(apiResponse)
             } else if (check.isEmpty(result)) {
 
-                console.log('Blog Not Found.')
                 let apiResponse = response.generate(true, 'Ticket Not Found', 404, null)
                 res.send(apiResponse)
             } else {
@@ -69,7 +68,7 @@ let viewByIssueId = (req, res) => {
 }
 
 /**
- * function to create the blog.
+ * function to create the ticket.
  */
 let createTicket = (req, res) => {
     let ticketCreationFunction = () => {
@@ -77,7 +76,6 @@ let createTicket = (req, res) => {
             console.log(req.body)
             if (check.isEmpty(req.body.title) || check.isEmpty(req.body.assignee) || check.isEmpty(req.body.status) || check.isEmpty(req.body.reporter) ) {
 
-                console.log("403, forbidden request");
                 let apiResponse = response.generate(true, 'required parameters are missing', 403, null)
                 reject(apiResponse)
             } else {
@@ -107,10 +105,10 @@ let createTicket = (req, res) => {
                         console.log('Success in ticket creation')
                         resolve(result)
                     }
-                }) // end new blog save
+                }) 
             }
-        }) // end new blog promise
-    } // end create blog function
+        }) 
+    } 
 
     // making promise call.
     ticketCreationFunction()
@@ -182,7 +180,7 @@ let createComment = (req, res) => {
                     comment:req.body.comment,
                     created: today,
                     lastModified: today,
-                }) // end new blog model
+                }) 
 
                 newComment.save((err, result) => {
                     if (err) {
@@ -194,10 +192,10 @@ let createComment = (req, res) => {
                         console.log('Success in ticket creation')
                         resolve(result)
                     }
-                }) // end new blog save
+                }) 
             }
-        }) // end new blog promise
-    } // end create blog function
+        }) 
+    } // end create comment function
 
     // making promise call.
     commentCreationFunction()
@@ -280,10 +278,10 @@ let createWatcher = (req, res) => {
                         console.log('Success in ticket creation')
                         resolve(result)
                     }
-                }) // end new blog save
+                }) 
             }
-        }) // end new blog promise
-    } // end create blog function
+        }) 
+    } 
 
     // making promise call.
     commentCreationFunction()
@@ -322,13 +320,15 @@ let viewWatchersByIssueId = (req, res) => {
                 let apiResponse = response.generate(true, 'Ticket Not Found', 404, null)
                 res.send(apiResponse)
             } else {
-                logger.info("Blog found successfully","issueController:viewCommentByIssueId",5)
+                logger.info("Blog found successfully","issueController:viewWatchersByIssueId",5)
                 let apiResponse = response.generate(false, 'Ticket Found Successfully.', 200, result)
                 res.send(apiResponse)
             }
         })
     }
 }
+
+
 
 module.exports = {
 
@@ -339,6 +339,6 @@ module.exports = {
     createComment:createComment,
     viewCommentByIssueId,viewCommentByIssueId,
     createWatcher:createWatcher,
-    viewWatchersByIssueId:viewWatchersByIssueId
+    viewWatchersByIssueId:viewWatchersByIssueId,
 }// end exports
 
