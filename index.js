@@ -11,9 +11,12 @@ const routeLoggerMiddlewares=require('./app/middlewares/routeLogger');
 const globalErrorHandlerMiddleware=require('./app/middlewares/appErrorHandler');
 const mongoose=require('mongoose');
 const morgan=require('morgan');
+const webpush = require('web-push');
+
+
+
 
 app.use(morgan('dev'))
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(cookieParser())
@@ -28,6 +31,8 @@ const controllersPath='./app/controllers';
 const libsPath='./app/libs';
 const middleWaresPath='./app/middlewares';
 const routesPath='./app/routes';
+
+webpush.setVapidDetails('mailto:varunmurali95@yahoo.in', appConfig.publicVAPIDKEY, appConfig.privateVAPIDKEY);
 
 app.all('*',function(req,res,next){
     res.header('Access-Control-Allow-Origin','*');
